@@ -2,7 +2,10 @@ import React, {useState} from "react";
 import ReactDOM from 'react-dom'
 import { container } from "./state";
 
-// ROutes
+// States
+
+
+// Routes
 import {
     BrowserRouter as Router,
     Switch,
@@ -42,7 +45,7 @@ const AppRoute = () =>
                 <LandingPage />
             </Route>
             <Route path="/voter-login">
-                    <VoterloginPage />
+                <VoterloginPage />
             </Route>
             <Route path="/video-auth">
                 <VideoAuthPage />
@@ -59,12 +62,11 @@ const AppRoute = () =>
 const App = () => {
 
     // This state is suppose to come from Unstated States in container
-    const [ isLoggedIn, setIsLoggedIn] = useState(true)
+    const con  = container.useContainer()
 
     return (
-        isLoggedIn ? <AppRoute /> : <AuthRoute />
+        con.isAuthenticated ? <AppRoute /> : <AuthRoute />
     )
-
 }
 
 
