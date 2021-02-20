@@ -33,7 +33,6 @@ export const FaceID = () => {
     return (
         <>
             <WebCam photo={con.webCamPhoto} setPhoto={con.setWebCamPhoto} />
-
             <img src={con.webCamPhoto || ""} />
             <button onClick={() => getDesc()}>Get Desc</button>
         </>
