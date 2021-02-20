@@ -28,12 +28,12 @@ export const WebCam = ({
     };
 
     return (
-        <>
+        <div className="flex flex-col">
             <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat={"image/png"}
-                width={320}
+                width={640}
                 videoConstraints={videoConstraints}
                 className={className}
                 screenshotQuality={100}
@@ -42,10 +42,12 @@ export const WebCam = ({
                 onClick={() => {
                     //@ts-ignore
                     con.setWebCamPhoto(webcamRef.current.getScreenshot());
+                    con.setTakingPhoto(false);
                 }}
+                className={"rounded-lg p-1 bg-yellow-300 font-mono"}
             >
-                Click me fam
+                Take Photo
             </button>
-        </>
+        </div>
     );
 };
