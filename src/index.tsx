@@ -5,7 +5,7 @@ import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <div className="container">
+    <div className="">
       Hello World with tailwindcss
     </div>
   </React.StrictMode>,
