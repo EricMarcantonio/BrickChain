@@ -21,6 +21,7 @@ import FinalPage from "./pages/FinalPage"
 import VideoAuthPage from "./pages/VideoAuthPage"
 import VotePage from "./pages/VotePage"
 import VoterloginPage from "./pages/VoterloginPage"
+import UserOnboardingPage from "./pages/UserOnboardingPage"
 
 import "./index.css";
 
@@ -33,6 +34,9 @@ const AuthRoute = () => (
                 </Route>
                 <Route path="/voter-login">
                     <VoterloginPage />
+                </Route>
+                <Route path="/user-onboarding">
+                    <UserOnboardingPage />
                 </Route>
             </Switch>
         </Router>
@@ -55,6 +59,9 @@ const AppRoute = () =>
             </Route>
             <Route path="/done">
                 <FinalPage />
+            </Route>
+            <Route path="/user-onboarding">
+                <UserOnboardingPage />
             </Route>
         </Switch>
     </Router>)

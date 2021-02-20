@@ -6,6 +6,7 @@ export const container = createContainer(() => {
     const [webCamPhoto, setWebCamPhoto] = useState("");
     const [takingPhoto, setTakingPhoto] = useState(true);
     const [faceDesc, setFaceDesc] = useState(new Float32Array());
+
     return {
         isAuthenticated,
         setIsAutheticated,
