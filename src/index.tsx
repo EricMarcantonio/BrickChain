@@ -28,7 +28,7 @@ import "./index.css";
 const AuthRoute = () => (
         <Router>
             <Switch>
-                <Route path="/">
+                <Route exact path="/">
                     <LandingPage />
                 </Route>
                 <Route path="/voter-login">
@@ -41,7 +41,7 @@ const AuthRoute = () => (
 const AppRoute = () => 
     (<Router>
         <Switch>
-            <Route path="/">
+            <Route exact path="/">
                 <LandingPage />
             </Route>
             <Route path="/voter-login">
@@ -53,7 +53,7 @@ const AppRoute = () =>
             <Route path="/vote">
                 <VotePage />
             </Route>
-            <Route path="/vote">
+            <Route path="/done">
                 <FinalPage />
             </Route>
         </Switch>
@@ -63,6 +63,8 @@ const App = () => {
 
     // This state is suppose to come from Unstated States in container
     const con  = container.useContainer()
+
+    console.log(con.isAuthenticated)
 
     return (
         con.isAuthenticated ? <AppRoute /> : <AuthRoute />
