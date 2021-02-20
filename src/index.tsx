@@ -1,12 +1,19 @@
 import React from "react";
 import ReactDOM from 'react-dom'
 import { container } from "./state";
+import {FaceID} from '../src/FaceID'
+
 import "./index.css";
 import landingpage from './assets/landingpage.gif'
+
 
 ReactDOM.render(
     <React.StrictMode>
         <container.Provider>
+
+            <div className="">Hello World with tailwindcss</div>
+            <FaceID/>
+
             <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column'}}>  
             <img src="https://cdn.discordapp.com/attachments/812517678140227614/812756666331299910/image.png"alt="Logo" />
 
