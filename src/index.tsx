@@ -7,6 +7,7 @@ import landingpage from './assets/landingpage.gif'
 ReactDOM.render(
     <React.StrictMode>
         <container.Provider>
+            <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column'}}>  
             <img src="https://cdn.discordapp.com/attachments/812517678140227614/812756666331299910/image.png"alt="Logo" />
 
             <h3>BrickChain Voting</h3>
@@ -22,8 +23,9 @@ ReactDOM.render(
             <li>6. See your Vote Block in the Chain</li>
             </ul>
             <img src="https://cdn.discordapp.com/attachments/812517678140227614/812756666331299910/image.png"alt="Logo" />
-
+            </div>
         </container.Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );
+
