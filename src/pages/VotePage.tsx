@@ -5,6 +5,7 @@ import CANDIDATE_LOGO_TOP from '../assets/top.png'
 import VotePointsOptions from '../components/VotePointsOptions'
 
 import '../styles/vote-page.css'
+import { Button } from '@material-ui/core'
 export interface Candidate {
     name: string;
     party: string;
@@ -42,6 +43,10 @@ function VotePage() {
                     </div>
                 ))
             }
+            </div>
+
+            <div className="footer">
+                <button className="button-vote">Submit Vote</button>
             </div>
         </div>
     )

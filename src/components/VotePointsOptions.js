@@ -25,11 +25,11 @@ export default function VotePointsOptions() {
     <div>
       <FormControl className={classes.formControl}>
         <Select className={classes.select} id="grouped-select">
-            <MenuItem value={5}>1st Choice</MenuItem>
-            <MenuItem value={4}>2nd Choice</MenuItem>
-            <MenuItem value={3}>3rd Choice</MenuItem>
-            <MenuItem value={2}>4th Choice</MenuItem>
-            <MenuItem value={1}>5th Choice</MenuItem>
+            <MenuItem value={5}>1st</MenuItem>
+            <MenuItem value={4}>2nd</MenuItem>
+            <MenuItem value={3}>3rd</MenuItem>
+            <MenuItem value={2}>4th</MenuItem>
+            <MenuItem value={1}>5th</MenuItem>
         </Select>
       </FormControl>
     </div>
