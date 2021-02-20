@@ -8,7 +8,7 @@ const axios = a.create({
 export const SendFaceDesc = (desc: Float32Array, userid: string) => {
     return axios.post("/storeuserface", {
         userid,
-        desc: desc.toString();
+        desc: desc.toString()
     });
 };
 
