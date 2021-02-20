@@ -3,7 +3,7 @@ import { createContainer } from "unstated-next";
 
 export const container = createContainer(() => {
 
-    const [isAuthenticated, setIsAutheticated]  = useState(false)   
+    const [isAuthenticated, setIsAutheticated]  = useState(true)   
     const [webCamPhoto, setWebCamPhoto] = useState(null);
 
     return {
