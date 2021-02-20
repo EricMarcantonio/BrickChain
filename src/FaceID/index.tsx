@@ -6,8 +6,11 @@ export const FaceID = () => {
     const con = container.useContainer();
     return (
         <>
-            <WebCam photo={con.webCamPhoto} setPhoto={con.setWebCamPhoto} />
-
+                <WebCam
+                    className="bg-black rounded-lg border-l"
+                    photo={con.webCamPhoto}
+                    setPhoto={con.setWebCamPhoto}
+                />
         </>
     );
 };

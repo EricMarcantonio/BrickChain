@@ -45,8 +45,8 @@ const VideoAuthPage = () => {
     } else {
         return (
             <div className="flex h-screen">
-                <div className="m-auto">
-                    <img src={con.webCamPhoto} />
+                <div className="m-auto flex-col">
+                    <img src={con.webCamPhoto} className="rounded-lg"/>
 
                     <button
                         onClick={() => {
@@ -68,6 +68,7 @@ const VideoAuthPage = () => {
                             });
                             //How do I switch routes
                         }}
+                        className={'rounded-lg p-1 bg-yellow-300 font-mono'}
                     >
                         Continue
                     </button>
