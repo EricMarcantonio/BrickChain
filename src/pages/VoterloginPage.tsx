@@ -57,35 +57,28 @@ function VoterloginPage() {
                     <form
                         onSubmit={doLogIn}
                         style={{ flexDirection: "column", display: "flex" }}
+                        className="space-y-3"
                     >
-                        <label style={{ fontSize: 20, marginTop: 20 }}>
-                            Email
-                        </label>
-
+                        
+                        <div className="text-2xl self-center">
+                            Login
+                        </div>
+            
                         <input
-                            style={{
-                                borderWidth: 2,
-                                borderColor: "#777",
-                                width: 300,
-                                paddingLeft: 10,
-                            }}
                             type="text"
+                            placeholder="Email"
+                            autoComplete={"off"}
+                            className="rounded-lg p-3 w-full border-black border-2"
                             onChange={e => setEmail(e.target.value)}
                         />
-
-                        <label style={{ fontSize: 20, marginTop: 20 }}>
-                            Password
-                        </label>
                         <input
-                            style={{
-                                borderWidth: 2,
-                                borderColor: "#777",
-                                width: 300,
-                                paddingLeft: 10,
-                            }}
                             type="password"
+                            placeholder="password...ssh"
+                            autoComplete={"off"}
+                            className="rounded-lg p-3 w-full border-black border-2"
                             onChange={e => setPassword(e.target.value)}
                         />
+
 
                         <input
                             type="submit"
