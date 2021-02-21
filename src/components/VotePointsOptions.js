@@ -1,9 +1,13 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+
+
+import { container } from "../state";
+
+import { useState } from 'react' ;
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -13,23 +17,41 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     select: {
         border: '1px solid grey',
-        borderRadius: "5px"
+        borderRadius: "5px",
+        padding: "5px 15px"
     }
   }),
 );
 
-export default function VotePointsOptions() {
+export default function VotePointsOptions({ choices, setChoices, setVote, vote, index }) {
   const classes = useStyles();
+
+  const handleChange = (e) => {
+    setChoices([...choices, e.target.value])
+
+    if (e.target.value === 1) {
+        setVote({...vote, first: index })
+    } 
+    else if (e.target.value === 2) {
+        setVote({...vote, second: index })
+    }
+    else if (e.target.value === 3) {
+        setVote({...vote, third: index })
+    }
+  };
+
+
+    console.log(choices)
+    console.log(vote)
+
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <Select className={classes.select} id="grouped-select">
-            <MenuItem value={5}>1st</MenuItem>
-            <MenuItem value={4}>2nd</MenuItem>
-            <MenuItem value={3}>3rd</MenuItem>
-            <MenuItem value={2}>4th</MenuItem>
-            <MenuItem value={1}>5th</MenuItem>
+        <Select defaultValue={null} onChange={handleChange} className={classes.select} id="grouped-select">
+            <MenuItem disabled={choices.includes(1)} value={1}>1st</MenuItem>
+            <MenuItem disabled={choices.includes(2)} value={2}>2nd</MenuItem>
+            <MenuItem disabled={choices.includes(3)} value={3}>3rd</MenuItem>
         </Select>
       </FormControl>
     </div>
