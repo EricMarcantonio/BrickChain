@@ -28,7 +28,7 @@ function VoterloginPage () {
     
             setTimeout(() => {
                 setLoading(false)
-                history.push("/vote")
+                history.push("/video-auth")
             }, 800);
         } else {
             setError(true)

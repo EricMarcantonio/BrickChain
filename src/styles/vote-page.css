@@ -17,8 +17,8 @@
 
 .candidate-img {
     margin: 15px;
-    width: 380px;
-    height: 100%;
+    width: 300px;
+    height: 90%;
 }
 
 .candidate-icon {
@@ -58,7 +58,6 @@
     width: 50vw;
     height: 550px;
     overflow: auto;
-    margin-left: 200px;
     margin-top: 25px;
 }
 
