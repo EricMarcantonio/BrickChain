@@ -9,8 +9,10 @@ import Lottie from "react-lottie";
 import brick from "../assets/animations/brickLogin.json";
 
 import firebase from "../firebase";
+import { useHistory } from "react-router-dom";
 
 import { CreateUser, SendFaceDesc, GetFaceDesc } from "../backend";
+import Loading from "../components/Loading3"
 
 let loadStartTime = new Date();
 (async function () {
@@ -54,6 +56,8 @@ export default function UserOnboardingPage() {
     const [currentView, setCurrentView] = useState("login");
     const [view1, setView1] = useState(true);
     const [view2, setView2] = useState(true);
+    const [loading, setLoading] = useState(false);
+
 
     const UserForm = () => {
         return (
@@ -149,11 +153,14 @@ export default function UserOnboardingPage() {
                                     <button
                                         className="bg-black text-white p-3 rounded-lg"
                                         onClick={() => {
+                                            setLoading(true)
                                             setView1(false);
                                             setCurrentView("lol");
                                             getDesc(con.webCamPhoto).then(
                                                 res => {
                                                     console.log(res);
+                                                    setLoading(false)
+
                                                     if (res) {
                                                         CreateUser(
                                                             con.userId,
@@ -186,6 +193,9 @@ export default function UserOnboardingPage() {
     };
 
     const AddFace1 = () => {
+
+        const history = useHistory()
+
         return (
             <div>
                 {view2 ? (
@@ -211,6 +221,7 @@ export default function UserOnboardingPage() {
                                     <button
                                         className="bg-black text-white p-3 rounded-lg"
                                         onClick={() => {
+                                            setLoading(true)
                                             getDesc(con.webCamPhoto).then(
                                                 res => {
                                                     if (res) {
@@ -219,6 +230,8 @@ export default function UserOnboardingPage() {
                                                             res
                                                         )
                                                             .then(data => {
+                                                                setLoading(false)
+                                                                history.push("/voter-login")
                                                                 console.log(
                                                                     data.data
                                                                 );
@@ -263,7 +276,9 @@ export default function UserOnboardingPage() {
 
     return (
         <div>
-            <Lol />
+            {
+                loading ? <Loading /> : <Lol /> 
+            }
         </div>
     );
 }
