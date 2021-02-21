@@ -55,15 +55,7 @@ const VideoAuthPage = () => {
     const compareDescriptor = (pic1: Float32Array, pic2: Float32Array) => {
         return faceapi.euclideanDistance(pic1, pic2);
     };
-    const string2numbers = (list: string[]) => {
-        // let returnMe = new Float32Array();
-        // for (let i = 0; i < list.length; i++) {
-        //     const element = list[i];
-        //     returnMe.set(ArrayLike, i)
 
-        // }
-        console.log(list.map(Number));
-    };
 
     if (con.takingPhoto) {
         return (
