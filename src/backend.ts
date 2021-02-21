@@ -41,18 +41,18 @@ export const SendVote = (
 ) => {
     return axios.post("/", {
         action: "vote",
-        userid: userid,
+        userid: userid.toString(),
         userface: userface.toString(),
-        first: first,
-        second: second,
-        third: third,
+        first: first.toString(),
+        second: second.toString(),
+        third: third.toString(),
     });
 };
 
 
 export const GetVotes = () => {
     return axios.post("/", {
-        action: "idkyet"
+        action: ""
     })
 }
 

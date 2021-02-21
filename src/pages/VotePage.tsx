@@ -72,6 +72,7 @@ function VotePage() {
         con.setSumbitVote(true);
         //@ts-ignore
         SendVote(con.userId, con.faceDesc, vote.first, vote.second, vote.third).then((res) => {
+            console.log(res)
             con.setSumbitVote(false);
             history.push("/done");
         })
