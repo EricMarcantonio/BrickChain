@@ -49,7 +49,7 @@ export const WebCam = ({
                         callback();
                     }
                 }}
-                className={"rounded-lg p-1 bg-yellow-300 font-mono"}
+                className={"rounded-lg p-1 bg-black font-mono text-white"}
             >
                 Take Photo
             </button>

@@ -6,8 +6,6 @@ import * as canvas from "canvas";
 
 import { useHistory } from "react-router-dom";
 
-import LoadingFace from "../components/Loading2";
-
 import { GetFaceDesc } from "../backend";
 
 let loadStartTime = new Date();
@@ -45,6 +43,7 @@ const VideoAuthPage = () => {
     };
 
     useEffect(() => {
+        con.setTakingPhoto(true);
         GetFaceDesc(con.userId).then(data => {
             setFace1(data.data.userface1);
             setFace2(data.data.userface2);
@@ -56,7 +55,6 @@ const VideoAuthPage = () => {
         return faceapi.euclideanDistance(pic1, pic2);
     };
 
-
     if (con.takingPhoto) {
         return (
             <div className="flex h-screen">
@@ -66,14 +64,11 @@ const VideoAuthPage = () => {
             </div>
         );
     } else {
-        return loading ? (
-            <LoadingFace />
-        ) : (
+        return (
             <div className="flex h-screen">
                 <div className="m-auto flex-col">
                     <img src={con.webCamPhoto} className="rounded-lg" />
 
-                    {loading ? <div>Loading.....</div> : null}
                     <button
                         disabled={loading}
                         onClick={() => {
