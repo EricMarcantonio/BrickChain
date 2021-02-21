@@ -115,7 +115,7 @@ const VideoAuthPage = () => {
                             });
                             //How do I switch routes
                         }}
-                        className={"rounded-lg p-1 bg-yellow-300 font-mono"}
+                        className={"rounded-lg p-1 bg-black text-white font-mono"}
                     >
                         Continue
                     </button>

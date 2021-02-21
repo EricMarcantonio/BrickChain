@@ -44,7 +44,7 @@ function Chart () {
         />
         <Tooltip />
         <Legend />
-        <Bar dataKey="votes" fill="#8884d8" />
+        <Bar dataKey="votes" fill="#00000" />
       </BarChart>
     );
 }
