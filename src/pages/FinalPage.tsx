@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Chart from "../components/Chart";
-import { GetVotes } from "../backend";
+import { GetAllVotes } from "../backend";
 
 import "../styles/vote-page.css";
 
@@ -10,33 +10,34 @@ function FinalPage() {
     const [data, setData] = useState();
 
     useEffect(() => {
-        GetVotes().then(data => {
+        GetAllVotes().then(data => {
+            console.log(data.data.candidates);
             let lol = [
                 {
                     name: "Candidate A",
-                    votes: 10, // changeme
+                    votes: data.data.candidates.A, // changeme
                 },
                 {
                     name: "Candidate B",
-                    votes: 2,
+                    votes: data.data.candidates.B,
                 },
                 {
                     name: "Candidate C",
-                    votes: 3,
+                    votes: data.data.candidates.C,
                 },
                 {
                     name: "Candidate D",
-                    votes: 44,
+                    votes: data.data.candidates.D,
                 },
                 {
                     name: "Candidate E",
-                    votes: 2,
+                    votes: data.data.candidates.E,
                 },
             ];
 
             setData(lol);
         });
-    });
+    }, []);
 
     return (
         <div className="text-center text-4xl p-10">

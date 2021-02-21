@@ -30,7 +30,6 @@ export const CreateUser = (userid: string, desc: Float32Array) => {
     });
 };
 
-
 //response
 export const SendVote = (
     userid: string,
@@ -49,15 +48,19 @@ export const SendVote = (
     });
 };
 
+export const GetAllVotes = () => {
+    return axios.post("/", {
+        action: "getvotes",
+    });
+};
 
 export const GetVotes = () => {
-    return a.get("http://4fe772188339.ngrok.io/chain")
-}
-
+    return a.get("http://4fe772188339.ngrok.io/chain");
+};
 
 export const AddToBlockChain = (vote: string, hash: string) => {
-    return a.post('http://4fe772188339.ngrok.io/add2chain', {
+    return a.post("http://4fe772188339.ngrok.io/add2chain", {
         vote: vote,
-        hash: hash
-    })
-}
+        hash: hash,
+    });
+};
