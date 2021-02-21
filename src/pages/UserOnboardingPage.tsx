@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -11,7 +11,10 @@ import { FaceID } from "../FaceID";
 import * as canvas from "canvas";
 import * as faceapi from "face-api.js";
 
-import firebase from '../firebase'
+import firebase from "../firebase";
+
+import { CreateUser, SendFaceDesc, GetFaceDesc } from "../backend";
+import { Add } from "@tensorflow/tfjs";
 
 let loadStartTime = new Date();
 (async function () {
@@ -42,86 +45,69 @@ const getDesc = async (photo: string) => {
 
 export default function UserOnboardingPage() {
     const con = container.useContainer();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const steps = getSteps();
 
-    const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
-    };
-
-    function getSteps() {
-        return [
-            "Sign Up",
-            "Add a picture of your face",
-            "Add a second, just to be sure",
-        ];
-    }
-
-    function getStepContent(step: number) {
-        switch (step) {
-            case 0:
-                return <UserForm />;
-            case 1:
-                return <AddFace />;
-            case 2:
-                return <AddFace />;
-            default:
-                return "Unknown step";
-        }
-    }
+    const [currentView, setCurrentView] = useState("login");
+    const [view1, setView1] = useState(true);
+    const [view2, setView2] = useState(true);
 
     const UserForm = () => {
         return (
-            <form className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2">
                 <div>
                     Email
                     <input
                         type="text"
-                        onChange={e => con.setUserEmail(e.target.value)}
                         className="rounded-sm bg-yellow-200"
-                        value={con.userEmail}
+                        id="email123"
                     />
                 </div>
                 <div>
                     Password
-                    <input
-                        type="password"
-                        onChange={e => con.setUserPassword(e.target.value)}
-                        value={con.userPassword}
-                    />
+                    <input type="password" id="pass123" />
                 </div>
                 <button
                     onClick={() => {
-                        handleNext();
-                        firebase.auth().createUserWithEmailAndPassword(con.userEmail, con.userPassword).then((done) => {
-                            
-                        })
-
+                        //@ts-ignore
+                        let e = document.getElementById("email123").value;
+                        //@ts-ignore
+                        let p = document.getElementById("pass123").value;
+                        con.setUserEmail(e);
+                        con.setUserPassword(p);
+                        firebase
+                            .auth()
+                            .createUserWithEmailAndPassword(e, p)
+                            .then(user => {
+                                con.setUserId(user.user?.uid || "");
+                                setCurrentView("step1");
+                            });
                     }}
                 >
                     Next
                 </button>
-            </form>
+            </div>
         );
     };
 
-    const AddFace = () => {
-        con.setTakingPhoto(true);
-        con.setWebCamPhoto("");
+    const AddFace1 = () => {
         return (
             <div>
-                {con.takingPhoto ? (
-                    <FaceID callback={() => handleNext()} />
+                {view2 ? (
+                    <FaceID callback={() => setView2(false)} />
                 ) : (
                     <>
                         <img src={con.webCamPhoto} />
                         <div>
                             <button
                                 onClick={() => {
-                                    handleNext();
                                     getDesc(con.webCamPhoto).then(res => {
                                         if (res) {
-                                            //send to db
+                                            SendFaceDesc(con.userId, res)
+                                                .then(data => {
+                                                    console.log(data.data);
+                                                })
+                                                .catch(data => {
+                                                    console.log(data);
+                                                });
                                         }
                                     });
                                 }}
@@ -135,18 +121,69 @@ export default function UserOnboardingPage() {
         );
     };
 
+    const AddFace = () => {
+        return (
+            <div>
+                {view1 ? (
+                    <FaceID callback={() => setView1(false)} />
+                ) : (
+                    <>
+                        <img src={con.webCamPhoto} />
+                        <div>
+                            <button
+                                onClick={() => {
+                                    setView1(false);
+                                    setCurrentView("lol");
+                                    getDesc(con.webCamPhoto).then(res => {
+                                        console.log(res);
+                                        if (res) {
+                                            CreateUser(con.userId, res)
+                                                .then(log => {
+                                                    console.log(
+                                                        "Creating a User"
+                                                    );
+                                                    GetFaceDesc(
+                                                        con.userId
+                                                    ).then(data => {
+                                                        console.log(data.data);
+                                                    });
+                                                })
+                                                .catch(err => {
+                                                    console.log(err);
+                                                });
+                                        }
+                                    });
+                                }}
+                            >
+                                Continue
+                            </button>
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    };
+
+    useEffect(() => {
+        if (con.userId)
+            GetFaceDesc(con.userId).then(data => {
+                console.log(data.data);
+            });
+    }, []);
+
+    const Lol = () => {
+        if (currentView === "login") {
+            return <UserForm />;
+        } else if (currentView === "step1") {
+            return <AddFace />;
+        } else {
+            return <AddFace1 />;
+        }
+    };
+
     return (
         <div className={"container flex"}>
-            <Stepper activeStep={activeStep} orientation="vertical">
-                {steps.map((label, index) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                        <StepContent>
-                            <Typography>{getStepContent(index)}</Typography>
-                        </StepContent>
-                    </Step>
-                ))}
-            </Stepper>
+            <Lol />
         </div>
     );
 }
