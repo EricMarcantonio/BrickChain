@@ -6,16 +6,14 @@ export const container = createContainer(() => {
     const [webCamPhoto, setWebCamPhoto] = useState("");
     const [takingPhoto, setTakingPhoto] = useState(true);
     const [faceDesc, setFaceDesc] = useState(new Float32Array());
-
-
-    // Voting States
+    const [userEmail, setUserEmail] = useState("");
+    const [userPassword, setUserPassword] = useState("");
     const [firstOption, setFirstOption] = useState(null);
     const [secondOption, setSecondOption] = useState(null);
     const [thridOption, setThirdOption] = useState(null);
     const [forthOption, setFourthOption] = useState(null);
     const [fifthOption, setFifthOption] = useState(null);
 
-    // View State
     const [ sumbitVote, setSumbitVote ] = useState(false);
 
     return {
@@ -37,6 +35,10 @@ export const container = createContainer(() => {
         takingPhoto,
         setTakingPhoto,
         faceDesc,
-        setFaceDesc
+        setFaceDesc,
+        userEmail,
+        setUserEmail,
+        userPassword,
+        setUserPassword,
     };
 });
