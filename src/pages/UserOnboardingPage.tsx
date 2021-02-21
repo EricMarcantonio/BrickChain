@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Typography from "@material-ui/core/Typography";
 import { container } from "../state";
 
 import { FaceID } from "../FaceID";
 import * as canvas from "canvas";
 import * as faceapi from "face-api.js";
 
+import Lottie from "react-lottie";
+import brick from "../assets/animations/brickLogin.json";
+
 import firebase from "../firebase";
 
 import { CreateUser, SendFaceDesc, GetFaceDesc } from "../backend";
-import { Add } from "@tensorflow/tfjs";
 
 let loadStartTime = new Date();
 (async function () {
@@ -43,6 +39,15 @@ const getDesc = async (photo: string) => {
     }
 };
 
+const options = {
+    loop: true,
+    autoplay: true,
+    animationData: brick,
+    rendererSettings: {
+        preserveAspectRatio: "xMidYMid slice",
+    },
+};
+
 export default function UserOnboardingPage() {
     const con = container.useContainer();
 
@@ -52,71 +57,68 @@ export default function UserOnboardingPage() {
 
     const UserForm = () => {
         return (
-            <div className="flex flex-col space-y-2">
-                <div>
-                    Email
-                    <input
-                        type="text"
-                        className="rounded-sm bg-yellow-200"
-                        id="email123"
-                    />
+            <div className="flex flex-col space-y-2 h-screen w-screen">
+                <div className="flex justify-center text-4xl font-mono mt-10">
+                    Let's get you setup.
                 </div>
-                <div>
-                    Password
-                    <input type="password" id="pass123" />
-                </div>
-                <button
-                    onClick={() => {
-                        //@ts-ignore
-                        let e = document.getElementById("email123").value;
-                        //@ts-ignore
-                        let p = document.getElementById("pass123").value;
-                        con.setUserEmail(e);
-                        con.setUserPassword(p);
-                        firebase
-                            .auth()
-                            .createUserWithEmailAndPassword(e, p)
-                            .then(user => {
-                                con.setUserId(user.user?.uid || "");
-                                setCurrentView("step1");
-                            });
-                    }}
-                >
-                    Next
-                </button>
-            </div>
-        );
-    };
-
-    const AddFace1 = () => {
-        return (
-            <div>
-                {view2 ? (
-                    <FaceID callback={() => setView2(false)} />
-                ) : (
-                    <>
-                        <img src={con.webCamPhoto} />
-                        <div>
-                            <button
-                                onClick={() => {
-                                    getDesc(con.webCamPhoto).then(res => {
-                                        if (res) {
-                                            SendFaceDesc(con.userId, res)
-                                                .then(data => {
-                                                    console.log(data.data);
-                                                })
-                                                .catch(data => {
-                                                    console.log(data);
+                <div className="absolute w-screen h-screen">
+                    <div className="flex h-full w-full ">
+                        <div className="m-auto">
+                            <div className="bg-black p-4 rounded-lg flex flex-col justify-items-center w-full">
+                                <Lottie options={options} />
+                                <div className="space-y-2 flex justify-center flex-col">
+                                    <div>
+                                        <input
+                                            type="text"
+                                            id="email123"
+                                            placeholder="Email"
+                                            autoComplete={"off"}
+                                            className="rounded-lg p-3 w-full"
+                                        />
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="password"
+                                            id="pass123"
+                                            placeholder="password...ssh"
+                                            autoComplete="off"
+                                            className="rounded-lg p-3 w-full"
+                                        />
+                                    </div>
+                                    <button
+                                        className="bg-white p-2 rounded-lg self-center"
+                                        onClick={() => {
+                                            //@ts-ignore
+                                            let e = document.getElementById(
+                                                "email123"
+                                            ).value;
+                                            //@ts-ignore
+                                            let p = document.getElementById(
+                                                "pass123"
+                                            ).value;
+                                            con.setUserEmail(e);
+                                            con.setUserPassword(p);
+                                            firebase
+                                                .auth()
+                                                .createUserWithEmailAndPassword(
+                                                    e,
+                                                    p
+                                                )
+                                                .then(user => {
+                                                    con.setUserId(
+                                                        user.user?.uid || ""
+                                                    );
+                                                    setCurrentView("step1");
                                                 });
-                                        }
-                                    });
-                                }}
-                            >
-                                Continue
-                            </button>
+                                        }}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </>
-                )}
+                    </div>
+                </div>
             </div>
         );
     };
@@ -125,38 +127,57 @@ export default function UserOnboardingPage() {
         return (
             <div>
                 {view1 ? (
-                    <FaceID callback={() => setView1(false)} />
+                    <div className="absolute h-screen w-screen">
+                        <div className="flex h-full">
+                            <div className="m-auto">
+                                <FaceID
+                                    callback={() => setView1(false)}
+                                    className={"container flex"}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 ) : (
                     <>
-                        <img src={con.webCamPhoto} />
-                        <div>
-                            <button
-                                onClick={() => {
-                                    setView1(false);
-                                    setCurrentView("lol");
-                                    getDesc(con.webCamPhoto).then(res => {
-                                        console.log(res);
-                                        if (res) {
-                                            CreateUser(con.userId, res)
-                                                .then(log => {
-                                                    console.log(
-                                                        "Creating a User"
-                                                    );
-                                                    GetFaceDesc(
-                                                        con.userId
-                                                    ).then(data => {
-                                                        console.log(data.data);
-                                                    });
-                                                })
-                                                .catch(err => {
-                                                    console.log(err);
-                                                });
-                                        }
-                                    });
-                                }}
-                            >
-                                Continue
-                            </button>
+                        <div className="absolute h-screen w-screen">
+                            <div className="flex h-full">
+                                <div className="m-auto">
+                                    <img
+                                        src={con.webCamPhoto}
+                                        className="rounded-lg"
+                                    />
+                                    <button
+                                        className="bg-black text-white p-3 rounded-lg"
+                                        onClick={() => {
+                                            setView1(false);
+                                            setCurrentView("lol");
+                                            getDesc(con.webCamPhoto).then(
+                                                res => {
+                                                    console.log(res);
+                                                    if (res) {
+                                                        CreateUser(
+                                                            con.userId,
+                                                            res
+                                                        )
+                                                            .then(log => {
+                                                                console.log(
+                                                                    log
+                                                                );
+                                                            })
+                                                            .catch(err => {
+                                                                console.log(
+                                                                    err
+                                                                );
+                                                            });
+                                                    }
+                                                }
+                                            );
+                                        }}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </>
                 )}
@@ -164,12 +185,71 @@ export default function UserOnboardingPage() {
         );
     };
 
-    useEffect(() => {
-        // if (con.userId)
-        GetFaceDesc("9JCWshJK9jO5sm8Pc3DaAHTZK053").then(data => {
-            console.log(Array.from(data.data));
-        });
-    }, []);
+    const AddFace1 = () => {
+        return (
+            <div>
+                {view2 ? (
+                    <div className="absolute h-screen w-screen">
+                        <div className="flex h-full">
+                            <div className="m-auto">
+                                <FaceID
+                                    callback={() => setView2(false)}
+                                    className={"container flex"}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <div className="absolute h-screen w-screen">
+                            <div className="flex h-full">
+                                <div className="m-auto">
+                                    <img
+                                        src={con.webCamPhoto}
+                                        className="rounded-lg"
+                                    />
+                                    <button
+                                        className="bg-black text-white p-3 rounded-lg"
+                                        onClick={() => {
+                                            getDesc(con.webCamPhoto).then(
+                                                res => {
+                                                    if (res) {
+                                                        SendFaceDesc(
+                                                            con.userId,
+                                                            res
+                                                        )
+                                                            .then(data => {
+                                                                console.log(
+                                                                    data.data
+                                                                );
+                                                            })
+                                                            .catch(data => {
+                                                                console.log(
+                                                                    data
+                                                                );
+                                                            });
+                                                    }
+                                                }
+                                            );
+                                        }}
+                                    >
+                                        Continue
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    };
+
+    // useEffect(() => {
+    //     // if (con.userId)
+    //     GetFaceDesc("9JCWshJK9jO5sm8Pc3DaAHTZK053").then(data => {
+    //         console.log(data.data.userface1.split(","));
+    //     });
+    // }, []);
 
     const Lol = () => {
         if (currentView === "login") {
@@ -182,7 +262,7 @@ export default function UserOnboardingPage() {
     };
 
     return (
-        <div className={"container flex"}>
+        <div>
             <Lol />
         </div>
     );
