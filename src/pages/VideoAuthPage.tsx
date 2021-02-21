@@ -4,6 +4,10 @@ import { container } from "../state";
 import * as faceapi from "face-api.js";
 import * as canvas from "canvas";
 
+import { useHistory } from "react-router-dom";
+
+import LoadingFace from "../components/Loading2"
+
 let loadStartTime = new Date();
 (async function () {
     const MODEL_URL = "./weights";
@@ -18,6 +22,9 @@ let loadStartTime = new Date();
     );
 });
 const VideoAuthPage = () => {
+    let history = useHistory();
+    const [ loading , setLoading ] = useState(false)
+ 
     const getDesc = async () => {
         const tempImage = await canvas.loadImage(con.webCamPhoto || "");
         const details = await faceapi
@@ -34,6 +41,7 @@ const VideoAuthPage = () => {
 
     const con = container.useContainer();
 
+
     if (con.takingPhoto) {
         return (
             <div className="flex h-screen">
@@ -43,13 +51,17 @@ const VideoAuthPage = () => {
             </div>
         );
     } else {
-        return (
+        return (       
+        loading ? <LoadingFace /> : 
             <div className="flex h-screen">
                 <div className="m-auto flex-col">
                     <img src={con.webCamPhoto} className="rounded-lg"/>
 
+                    { loading ? <div>Loading.....</div> : null}
                     <button
+                        disabled={loading}
                         onClick={() => {
+                            setLoading(true)
                             const faceStart = new Date();
                             getDesc().then(data => {
                                 console.log(
@@ -64,6 +76,8 @@ const VideoAuthPage = () => {
                                     con.setWebCamPhoto("");
                                 } else {
                                     con.setFaceDesc(data);
+                                    setLoading(false)
+                                    history.push("/vote")
                                 }
                             });
                             //How do I switch routes
