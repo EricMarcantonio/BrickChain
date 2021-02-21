@@ -231,6 +231,7 @@ export default function UserOnboardingPage() {
                                                         )
                                                             .then(data => {
                                                                 setLoading(false)
+                                                                con.setWebCamPhoto("")
                                                                 history.push("/voter-login")
                                                                 console.log(
                                                                     data.data
