@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaceID } from "../FaceID";
 import { container } from "../state";
 import * as faceapi from "face-api.js";
@@ -6,7 +6,9 @@ import * as canvas from "canvas";
 
 import { useHistory } from "react-router-dom";
 
-import LoadingFace from "../components/Loading2"
+import LoadingFace from "../components/Loading2";
+
+import { GetFaceDesc } from "../backend";
 
 let loadStartTime = new Date();
 (async function () {
@@ -23,8 +25,11 @@ let loadStartTime = new Date();
 });
 const VideoAuthPage = () => {
     let history = useHistory();
-    const [ loading , setLoading ] = useState(false)
- 
+    const [loading, setLoading] = useState(false);
+    const [face1, setFace1] = useState("");
+    const [face2, setFace2] = useState("");
+    const [status, setStatus] = useState(false);
+    const con = container.useContainer();
     const getDesc = async () => {
         const tempImage = await canvas.loadImage(con.webCamPhoto || "");
         const details = await faceapi
@@ -39,8 +44,26 @@ const VideoAuthPage = () => {
         }
     };
 
-    const con = container.useContainer();
+    useEffect(() => {
+        GetFaceDesc(con.userId).then(data => {
+            setFace1(data.data.userface1);
+            setFace2(data.data.userface2);
+            setStatus(Boolean(data.data.status));
+        });
+    }, []);
 
+    const compareDescriptor = (pic1: Float32Array, pic2: Float32Array) => {
+        return faceapi.euclideanDistance(pic1, pic2);
+    };
+    const string2numbers = (list: string[]) => {
+        // let returnMe = new Float32Array();
+        // for (let i = 0; i < list.length; i++) {
+        //     const element = list[i];
+        //     returnMe.set(ArrayLike, i)
+
+        // }
+        console.log(list.map(Number));
+    };
 
     if (con.takingPhoto) {
         return (
@@ -51,17 +74,18 @@ const VideoAuthPage = () => {
             </div>
         );
     } else {
-        return (       
-        loading ? <LoadingFace /> : 
+        return loading ? (
+            <LoadingFace />
+        ) : (
             <div className="flex h-screen">
                 <div className="m-auto flex-col">
-                    <img src={con.webCamPhoto} className="rounded-lg"/>
+                    <img src={con.webCamPhoto} className="rounded-lg" />
 
-                    { loading ? <div>Loading.....</div> : null}
+                    {loading ? <div>Loading.....</div> : null}
                     <button
                         disabled={loading}
                         onClick={() => {
-                            setLoading(true)
+                            setLoading(true);
                             const faceStart = new Date();
                             getDesc().then(data => {
                                 console.log(
@@ -75,14 +99,36 @@ const VideoAuthPage = () => {
                                     con.setTakingPhoto(true);
                                     con.setWebCamPhoto("");
                                 } else {
-                                    con.setFaceDesc(data);
-                                    setLoading(false)
-                                    history.push("/vote")
+                                    if (
+                                        compareDescriptor(
+                                            data,
+                                            new Float32Array(
+                                                face1.split(",").map(Number)
+                                            )
+                                        ) < 0.55
+                                    ) {
+                                        con.setFaceDesc(data);
+                                        setLoading(false);
+                                        history.push("/vote");
+                                    } else if (
+                                        compareDescriptor(
+                                            data,
+                                            new Float32Array(
+                                                face2.split(",").map(Number)
+                                            )
+                                        ) < 0.55
+                                    ) {
+                                        con.setFaceDesc(data);
+                                        setLoading(false);
+                                        history.push("/vote");
+                                    } else {
+                                        alert("Face not recognized");
+                                    }
                                 }
                             });
                             //How do I switch routes
                         }}
-                        className={'rounded-lg p-1 bg-yellow-300 font-mono'}
+                        className={"rounded-lg p-1 bg-yellow-300 font-mono"}
                     >
                         Continue
                     </button>
