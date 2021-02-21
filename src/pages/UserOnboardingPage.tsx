@@ -4,14 +4,14 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import { container } from "../state";
 
 import { FaceID } from "../FaceID";
 import * as canvas from "canvas";
 import * as faceapi from "face-api.js";
+
+import firebase from '../firebase'
 
 let loadStartTime = new Date();
 (async function () {
@@ -90,7 +90,17 @@ export default function UserOnboardingPage() {
                         value={con.userPassword}
                     />
                 </div>
-                <button onClick={handleNext}>Next</button>
+                <button
+                    onClick={() => {
+                        handleNext();
+                        firebase.auth().createUserWithEmailAndPassword(con.userEmail, con.userPassword).then((done) => {
+                            
+                        })
+
+                    }}
+                >
+                    Next
+                </button>
             </form>
         );
     };
@@ -106,14 +116,18 @@ export default function UserOnboardingPage() {
                     <>
                         <img src={con.webCamPhoto} />
                         <div>
-                            <button onClick={() => {
-                                handleNext();
-                                getDesc(con.webCamPhoto).then((res) => {
-                                    if (res){
-                                        //send to db
-                                    }
-                                })
-                            }}>Continue</button>
+                            <button
+                                onClick={() => {
+                                    handleNext();
+                                    getDesc(con.webCamPhoto).then(res => {
+                                        if (res) {
+                                            //send to db
+                                        }
+                                    });
+                                }}
+                            >
+                                Continue
+                            </button>
                         </div>
                     </>
                 )}
