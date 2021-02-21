@@ -6,26 +6,26 @@ import {
 
 
 
-const data = [
-  {
-    name: 'Candidate A', votes: 10,
-  },
-  {
-    name: 'Candidate B',  votes: 2,
-  },
-  {
-    name: 'Candidate C', votes: 3,
-  },
-  {
-    name: 'Candidate D', votes: 44,
-  },
-  {
-    name: 'Candidate E',  votes: 2,
-  },
-];
+// const data = [
+//   {
+//     name: 'Candidate A', votes: 10,
+//   },
+//   {
+//     name: 'Candidate B',  votes: 2,
+//   },
+//   {
+//     name: 'Candidate C', votes: 3,
+//   },
+//   {
+//     name: 'Candidate D', votes: 44,
+//   },
+//   {
+//     name: 'Candidate E',  votes: 2,
+//   },
+// ];
 
 
-function Chart () {
+function Chart ({data}) {
     return (
       <BarChart
         width={800}
