@@ -6,14 +6,26 @@ const axios = a.create({
 });
 
 export const SendFaceDesc = (desc: Float32Array, userid: string) => {
-    return axios.post("/storeuserface", {
-        userid,
-        desc: desc.toString()
+    return axios.post("/", {
+        action: "storeuserface",
+        userid: userid,
+        userface1: "",
+        userface2: desc.toString(),
     });
 };
 
 export const GetFaceDesc = (userid: string) => {
-    return axios.post("/getuserface", {
-        userid,
+    return axios.post("/", {
+        action: "getuserface",
+        userid: userid,
+    });
+};
+
+export const CreateUser = (userid: string, desc: Float32Array) => {
+    return axios.post("/", {
+        action: "createuser",
+        userid: userid,
+        userface1: desc.toString(),
+        userface2: "",
     });
 };
