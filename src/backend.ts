@@ -51,14 +51,15 @@ export const SendVote = (
 
 
 export const GetVotes = () => {
-    return axios.post("/", {
+    return a.post("/", {
         action: ""
     })
 }
 
 
-export const AddToBlockChain = () => {
-    return axios.post('/', {
-        action: "idkyet",
+export const AddToBlockChain = (vote: string, hash: string) => {
+    return a.post('/', {
+        vote: vote,
+        hash: hash
     })
 }
