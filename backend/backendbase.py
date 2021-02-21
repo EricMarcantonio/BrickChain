@@ -1,13 +1,14 @@
 import os
+# import pymongo
 import json
 import random
 import psycopg2
-
+import hashlib
 
 
 
 def connector():
-    # cockroachstring = "dbname='wet-dingo-838.defaultdb' user='muntaser' password='geturown' host='free-tier.gcp-us-central1.cockroachlabs.cloud' port='26257'"
+    # cockroachstring = "dbname='wet-dingo-838.defaultdb' user='muntaser' password='nopasswordhere' host='free-tier.gcp-us-central1.cockroachlabs.cloud' port='26257'"
     cockroachstring = os.environ.get('COCKROACHSTR')
     conn=psycopg2.connect(cockroachstring)
     return conn
