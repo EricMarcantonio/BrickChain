@@ -8,6 +8,7 @@ interface WebCamProps {
     facingMode?: string;
     width?: number;
     className?: string;
+    callback?: () => void;
 }
 
 export const WebCam = ({
@@ -16,6 +17,7 @@ export const WebCam = ({
     facingMode,
     width,
     className,
+    callback,
 }: WebCamProps) => {
     const con = container.useContainer();
     const webcamRef = React.useRef(null);
@@ -43,6 +45,9 @@ export const WebCam = ({
                     //@ts-ignore
                     con.setWebCamPhoto(webcamRef.current.getScreenshot());
                     con.setTakingPhoto(false);
+                    if (callback) {
+                        callback();
+                    }
                 }}
                 className={"rounded-lg p-1 bg-yellow-300 font-mono"}
             >
