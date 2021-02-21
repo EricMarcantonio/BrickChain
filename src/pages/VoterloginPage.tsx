@@ -9,27 +9,33 @@ import Divider from "@material-ui/core/Divider";
 import { useHistory } from "react-router-dom";
 
 import CircularIndeterminate from "../components/Loading";
+import firebase from "../firebase";
+import { container } from "../state";
 
 function VoterloginPage() {
     let history = useHistory();
 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const con = container.useContainer();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
     const doLogIn = () => {
-        if (email === "test@test.com" && password === "bricks") {
-            console.log(email, password);
-            setLoading(true);
-
-            setTimeout(() => {
+        setLoading(true);
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(user => {
                 setLoading(false);
+                con.setUserId(user.user?.uid || "");
+                con.setUserEmail(user.user?.email || "");
                 history.push("/video-auth");
-            }, 800);
-        } else {
-            setError(true);
-        }
+            })
+            .catch(err => {
+                setError(true);
+            });
     };
 
     return (
@@ -59,11 +65,8 @@ function VoterloginPage() {
                         style={{ flexDirection: "column", display: "flex" }}
                         className="space-y-3"
                     >
-                        
-                        <div className="text-2xl self-center">
-                            Login
-                        </div>
-            
+                        <div className="text-2xl self-center">Login</div>
+
                         <input
                             type="text"
                             placeholder="Email"
@@ -78,7 +81,6 @@ function VoterloginPage() {
                             className="rounded-lg p-3 w-full border-black border-2"
                             onChange={e => setPassword(e.target.value)}
                         />
-
 
                         <input
                             type="submit"
