@@ -51,14 +51,12 @@ export const SendVote = (
 
 
 export const GetVotes = () => {
-    return a.post("/", {
-        action: ""
-    })
+    return a.get("http://4fe772188339.ngrok.io/chain")
 }
 
 
 export const AddToBlockChain = (vote: string, hash: string) => {
-    return a.post('/', {
+    return a.post('http://4fe772188339.ngrok.io/add2chain', {
         vote: vote,
         hash: hash
     })

@@ -10,7 +10,7 @@ import { Button } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 
-import { SendVote } from "../backend";
+import { SendVote, AddToBlockChain } from "../backend";
 
 // Sate
 import { container } from "../state";
@@ -70,13 +70,24 @@ function VotePage() {
     const handleVote = () => {
         // SEND VOTE TO BACK END
         con.setSumbitVote(true);
-        //@ts-ignore
-        SendVote(con.userId, con.faceDesc, vote.first, vote.second, vote.third).then((res) => {
-            console.log(res)
-            con.setSumbitVote(false);
-            history.push("/done");
-        })
 
+        SendVote(
+            con.userId,
+            con.faceDesc,
+            //@ts-ignore
+            vote.first,
+            //@ts-ignore
+            vote.second,
+            //@ts-ignore
+            vote.third
+        ).then(res => {
+            console.log(res);
+            AddToBlockChain(res.data.vote, res.data.hash).then(res => {
+                console.log(res)
+                con.setSumbitVote(false);
+                history.push("/done");
+            });
+        });
     };
 
     const handleReset = () => {
