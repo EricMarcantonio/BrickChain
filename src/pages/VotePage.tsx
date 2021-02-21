@@ -74,10 +74,8 @@ function VotePage() {
             {
                 CANDIDATES.map((item: Candidate, index: number) => (
                     <div className="flex flex-row m-5">
-                        
-                        <VotePointsOptions item={item} choices={choices} setChoices={setChoices} setVote={setVote} vote={vote} index={index}/>
-    
                         <CandidateCard item={item} />
+                        <VotePointsOptions item={item} choices={choices} setChoices={setChoices} setVote={setVote} vote={vote} index={index}/>
                     </div>
                 ))
             }

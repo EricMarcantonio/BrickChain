@@ -12,8 +12,7 @@ function LandingPage() {
 
     return (
         <>
-            <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column'}}>  
-            <img style={{width: "100%", height: "50px" , padding: "0px"}} src="https://cdn.discordapp.com/attachments/812517678140227614/812756666331299910/image.png"alt="Logo" />
+            <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column', paddingTop: "50px"}}>  
 
             <h3 style={{ fontSize: 30, fontWeight: '700', fontSize: "50px", marginTop: "20px"}}>BrickChain Voting</h3>
             <text className="text-gray-500 mb-4" style={{ fontSize: 18, paddingBottom: 10}}>A block chain based transparent yet anonymous voting system</text>
@@ -38,7 +37,6 @@ function LandingPage() {
                 </li>
             </ul>
             <button style={{ backgroundColor: "#000", color: "#fff", fontSize: 20, padding: 10, borderRadius: 5, margin: 10}} onClick={() => { history.push("/voter-login")}}>Get Started!</button>
-                <img style={{width: "100%", height: "50px" , padding: "0px"}} src="https://cdn.discordapp.com/attachments/812517678140227614/812756666331299910/image.png"alt="Logo" />
             </div>
         </>
     )
