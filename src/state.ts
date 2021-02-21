@@ -16,6 +16,9 @@ export const container = createContainer(() => {
 
     const [ sumbitVote, setSumbitVote ] = useState(false);
 
+
+    const [userId, setUserId] = useState("");
+
     return {
         isAuthenticated,
         setIsAutheticated,
@@ -30,6 +33,8 @@ export const container = createContainer(() => {
         // View States
         sumbitVote, setSumbitVote,
 
+
+        //Auth onboarding
         webCamPhoto,
         setWebCamPhoto,
         takingPhoto,
@@ -40,5 +45,8 @@ export const container = createContainer(() => {
         setUserEmail,
         userPassword,
         setUserPassword,
+        userId,
+        setUserId
+
     };
 });

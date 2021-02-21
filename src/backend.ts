@@ -3,14 +3,14 @@ import a from "axios";
 const axios = a.create({
     baseURL:
         "https://us-central1-aiot-fit-xlab.cloudfunctions.net/brickchainfunctions",
+        headers: ""
 });
 
-export const SendFaceDesc = (desc: Float32Array, userid: string) => {
+export const SendFaceDesc = (userid: string, desc: Float32Array) => {
     return axios.post("/", {
-        action: "storeuserface",
+        action: "setuserface",
         userid: userid,
-        userface1: "",
-        userface2: desc.toString(),
+        userface: desc.toString(),
     });
 };
 
@@ -20,6 +20,8 @@ export const GetFaceDesc = (userid: string) => {
         userid: userid,
     });
 };
+
+
 
 export const CreateUser = (userid: string, desc: Float32Array) => {
     return axios.post("/", {
