@@ -111,18 +111,10 @@ function VoterloginPage() {
                             margin: 10,
                         }}
                     >
-                        Do On Boarding
+                        I am a new user
                     </button>
 
-                    <div className="text-center">
-                        <h1>
-                            <b>Test User</b>
-                        </h1>
-                        <ul>
-                            <li> email: test@test.com </li>
-                            <li> Password: bricks </li>
-                        </ul>
-                    </div>
+                    
                 </div>
             )}
         </>
