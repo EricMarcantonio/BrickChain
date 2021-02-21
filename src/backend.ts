@@ -30,6 +30,8 @@ export const CreateUser = (userid: string, desc: Float32Array) => {
     });
 };
 
+
+//response
 export const SendVote = (
     userid: string,
     userface: Float32Array,
@@ -47,8 +49,16 @@ export const SendVote = (
     });
 };
 
+
 export const GetVotes = () => {
     return axios.post("/", {
         action: "idkyet"
+    })
+}
+
+
+export const AddToBlockChain = () => {
+    return axios.post('/', {
+        action: "idkyet",
     })
 }
