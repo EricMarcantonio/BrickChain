@@ -165,10 +165,10 @@ export default function UserOnboardingPage() {
     };
 
     useEffect(() => {
-        if (con.userId)
-            GetFaceDesc(con.userId).then(data => {
-                console.log(data.data);
-            });
+        // if (con.userId)
+        GetFaceDesc("9JCWshJK9jO5sm8Pc3DaAHTZK053").then(data => {
+            console.log(Array.from(data.data));
+        });
     }, []);
 
     const Lol = () => {
